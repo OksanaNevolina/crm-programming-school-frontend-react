@@ -1,16 +1,22 @@
 import { urls } from '../constants';
-import { ITokens } from '../interfaces';
-import { IAuth } from '../interfaces/InterfaceAuth';
-import { IUser } from '../interfaces/InterfaceUser';
-import { IRes } from '../types/resType';
+import { IAuth, InterfeceResponceLogin, ITokens, IUser } from '../interfaces';
+
 import { ApiService } from './ApiService';
+import { IRes } from '../types';
 
 const accessTokenKey = 'access';
 const refreshTokenKey = 'refresh';
 const AuthService = {
   async login(user: IAuth): Promise<IUser> {
-    const { data } = await ApiService.post<ITokens>(urls.auth.login, user);
-    this.setTokens(data);
+    const { data } = await ApiService.post<InterfeceResponceLogin>(
+      urls.auth.login,
+      user,
+    );
+    this.setTokens({
+      access: data.tokens.accessToken,
+      refresh: data.tokens.refreshToken,
+    });
+
     const { data: me } = await this.getMe();
     return me;
   },
@@ -20,7 +26,10 @@ const AuthService = {
     const { data } = await ApiService.post<ITokens>(urls.auth.refresh, {
       refresh,
     });
-    this.setTokens(data);
+    this.setTokens({
+      access: data.accessToken,
+      refresh: data.refreshToken,
+    });
   },
 
   getMe(): IRes<IUser> {
@@ -31,7 +40,7 @@ const AuthService = {
     this.deleteTokens();
   },
 
-  setTokens({ refresh, access }: ITokens): void {
+  setTokens({ access, refresh }: { access: string; refresh: string }): void {
     localStorage.setItem(accessTokenKey, access);
     localStorage.setItem(refreshTokenKey, refresh);
   },

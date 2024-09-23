@@ -9,9 +9,12 @@ import css from './Auth.module.css';
 
 const Auth = () => {
   const { register, reset, handleSubmit } = useForm<IAuth>();
+
   const { errors } = useAppSelector((state) => state.authReducer);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const login: SubmitHandler<IAuth> = async (user) => {
     const {
       meta: { requestStatus },
