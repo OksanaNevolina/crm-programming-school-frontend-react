@@ -1,2 +1,2 @@
-export * from './resType';
 export * from './reduxType';
+export * from './resType';

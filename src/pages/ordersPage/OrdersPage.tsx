@@ -1,7 +1,13 @@
 import React from 'react';
 
+import { Orders } from '../../components';
+
 const OrdersPage = () => {
-  return <div>OrdersPage</div>;
+  return (
+    <div>
+      <Orders />
+    </div>
+  );
 };
 
 export { OrdersPage };

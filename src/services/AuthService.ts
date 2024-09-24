@@ -1,8 +1,7 @@
 import { urls } from '../constants';
 import { IAuth, InterfeceResponceLogin, ITokens, IUser } from '../interfaces';
-
-import { ApiService } from './ApiService';
 import { IRes } from '../types';
+import { ApiService } from './ApiService';
 
 const accessTokenKey = 'access';
 const refreshTokenKey = 'refresh';

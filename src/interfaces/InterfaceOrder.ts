@@ -10,7 +10,7 @@ export interface IOrder {
   course_type: string | null;
   sum: number | null;
   alreadyPaid: number | null;
-  created_at: Date | null;
+  created_at: null;
   utm: string | null;
   msg: string | null;
   status: string | null;

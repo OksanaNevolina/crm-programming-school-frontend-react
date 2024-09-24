@@ -26,13 +26,31 @@ const Auth = () => {
     }
   };
   return (
-    <div className={css.login}>
-      <form className={css.formLoginAdmin} onSubmit={handleSubmit(login)}>
-        <input type="text" placeholder={'email'} {...register('email')} />
-        <input type="text" placeholder={'password'} {...register('password')} />
-        <button>LOGIN</button>
-        {errors && <span>{errors.detail}</span>}
-      </form>
+    <div className={css.mainAuth}>
+      <div className={css.login}>
+        <form className={css.formLoginAdmin} onSubmit={handleSubmit(login)}>
+          <span className={css.labelName}>Email</span>
+          <input
+            id="email"
+            type="text"
+            placeholder="email"
+            className={css.label}
+            {...register('email')}
+          />
+
+          <span className={css.labelName}>Password</span>
+          <input
+            id="password"
+            type="text"
+            placeholder="password"
+            className={css.label}
+            {...register('password')}
+          />
+
+          <button>LOGIN</button>
+          {errors && <span>{errors.detail}</span>}
+        </form>
+      </div>
     </div>
   );
 };

@@ -6,8 +6,8 @@ import {
 } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { AuthService } from '../../services';
 import { IAuth, IUser } from '../../interfaces';
+import { AuthService } from '../../services';
 
 interface IState {
   errors: {

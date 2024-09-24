@@ -1,6 +1,11 @@
-html,
-body {
-  height: 100%;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.mainAuth {
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
   display: flex;
@@ -25,7 +30,7 @@ button {
   height: 40px;
   border-radius: 10px;
   padding: 10px;
-  margin-top: 30px;
+  margin: 10px;
   border: 2px solid #ccc;
   box-sizing: border-box;
 }
@@ -35,4 +40,12 @@ button {
   font-size: 15px;
   font-weight: bold;
   color: white;
+}
+
+.labelName {
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%;
+  padding-left: 20px;
 }

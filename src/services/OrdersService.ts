@@ -1,6 +1,6 @@
 import { urls } from '../constants';
-import { IPaginationResponse } from '../interfaces/InterfacePaginationResponseOrders';
-import { IRes } from '../types/resType';
+import { IPaginationResponse } from '../interfaces';
+import { IRes } from '../types';
 import { ApiService } from './ApiService';
 
 const OrdersService = {

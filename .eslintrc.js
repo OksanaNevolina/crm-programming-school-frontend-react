@@ -4,42 +4,21 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin', 'simple-import-sort', 'import'],
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'prettier'],
   extends: [
-    'plugin:prettier/recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier',
+    'plugin:prettier/recommended', // Додає Prettier
+    'prettier', // Вимикає конфліктуючі правила ESLint
   ],
-  root: true,
-  env: {
-    node: true,
-    jest: true,
-  },
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/return-await': ['error', 'always'],
+    'prettier/prettier': 'error', // Включає правило Prettier
     'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error', // Додай це для експорту
-    'import/first': 'error',
-    'import/newline-after-import': ['error', { count: 1 }],
-    'import/no-duplicates': 'error',
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
-    'no-console': 'error',
-    // Видалити або відключити:
-    // 'sort-imports': [
-    //   'error',
-    //   {
-    //     ignoreCase: true,
-    //     ignoreDeclarationSort: true,
-    //     ignoreMemberSort: false,
-    //     memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-    //     allowSeparatedGroups: false,
-    //   },
-    // ],
+    'simple-import-sort/exports': 'error',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
-  ignorePatterns: ['.eslintrc.js'],
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
 };

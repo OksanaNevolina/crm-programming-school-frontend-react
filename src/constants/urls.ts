@@ -15,4 +15,4 @@ const urls = {
   },
   orders,
 };
-export { urls, baseURL };
+export { baseURL, urls };
