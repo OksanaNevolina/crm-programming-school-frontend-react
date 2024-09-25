@@ -4,7 +4,18 @@ import { IRes } from '../types';
 import { ApiService } from './ApiService';
 
 const OrdersService = {
-  getAll: (page: string): IRes<IPaginationResponse> =>
-    ApiService.get(urls.orders, { params: { page } }),
+  getAll: (
+    page: string,
+    order: string,
+    sortOrder: string,
+  ): IRes<IPaginationResponse> =>
+    ApiService.get(urls.orders, {
+      params: {
+        page,
+        order,
+        sortOrder,
+      },
+    }),
 };
+
 export { OrdersService };

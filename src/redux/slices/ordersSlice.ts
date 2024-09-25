@@ -19,15 +19,18 @@ const initialState: IState = {
   limit: 0,
 };
 
-const getOrders = createAsyncThunk<IPaginationResponse, { page: string }>(
+const getOrders = createAsyncThunk<
+  IPaginationResponse,
+  { page: string; order: string; sortOrder: string } // Додаємо order і sortOrder
+>(
   'ordersSlice/getOrders',
-  async (page, { rejectWithValue }) => {
+  async ({ page, order, sortOrder }, { rejectWithValue }) => {
     try {
-      const { data } = await OrdersService.getAll(page.page);
+      const { data } = await OrdersService.getAll(page, order, sortOrder); // Передаємо ці параметри в сервіс
       return data;
     } catch (e) {
       const err = e as AxiosError;
-      rejectWithValue(err.response.data);
+      return rejectWithValue(err.response.data);
     }
   },
 );

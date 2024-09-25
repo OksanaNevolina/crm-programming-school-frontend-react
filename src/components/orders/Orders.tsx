@@ -9,15 +9,34 @@ import { Order } from './order';
 const Orders = () => {
   const { orders, itemsFound } = useAppSelector((state) => state.ordersReducer);
   const dispatch = useAppDispatch();
-  const [query, setQuery] = useSearchParams({ page: '1' });
+  const [query, setQuery] = useSearchParams({
+    page: '1',
+    order: 'id',
+    sortOrder: 'DESC',
+  });
   const page = query.get('page');
+  const order = query.get('order');
+  const sortOrder = query.get('sortOrder');
+
   useEffect(() => {
-    dispatch(ordersActions.getOrders({ page }));
-  }, [dispatch, page]);
+    dispatch(ordersActions.getOrders({ page, order, sortOrder }));
+  }, [dispatch, page, order, sortOrder]);
+
+  const handleSort = (column: string) => {
+    const newSortOrder =
+      order === column && sortOrder === 'ASC' ? 'DESC' : 'ASC';
+    setQuery({ page: page.toString(), order: column, sortOrder: newSortOrder });
+  };
+
   return (
     <div>
       <div>
-        <Order orders={orders} />
+        <Order
+          orders={orders}
+          onSort={handleSort}
+          currentOrder={order}
+          currentSortOrder={sortOrder}
+        />
       </div>
       <Pagination
         count={itemsFound}
@@ -25,7 +44,9 @@ const Orders = () => {
         size="large"
         variant="outlined"
         color="standard"
-        onChange={(event, page) => setQuery({ page: page.toString() })}
+        onChange={(event, page) =>
+          setQuery({ page: page.toString(), order, sortOrder })
+        }
       />
     </div>
   );
