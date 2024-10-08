@@ -30,6 +30,12 @@ const Order: FC<IProps> = ({
     setExpandedOrderId((prevId) => (prevId === orderId ? null : orderId));
   };
 
+  const renderValue = (value: any) => {
+    return value === null || value === undefined || value === ''
+      ? 'null'
+      : value;
+  };
+
   return (
     <table className={css.table}>
       <thead>
@@ -67,25 +73,37 @@ const Order: FC<IProps> = ({
           <th onClick={() => onSort('created_at')}>
             Created At {getSortIndicator('created_at')}
           </th>
+          <th onClick={() => onSort('group')}>
+            Group {getSortIndicator('group')}
+          </th>
+          <th onClick={() => onSort('manager')}>
+            Manager {getSortIndicator('manager')}
+          </th>
         </tr>
       </thead>
       <tbody>
         {orders.map((order) => (
           <React.Fragment key={order.id}>
             <tr onClick={() => toggleExpand(order.id)}>
-              <td>{order.id}</td>
-              <td>{order.name}</td>
-              <td>{order.surname}</td>
-              <td>{order.email}</td>
-              <td>{order.phone}</td>
-              <td>{order.age}</td>
-              <td>{order.course}</td>
-              <td>{order.course_format}</td>
-              <td>{order.course_type}</td>
-              <td>{order.status}</td>
-              <td>{order.sum}</td>
-              <td>{order.alreadyPaid}</td>
-              <td>{new Date(order.created_at).toLocaleString()}</td>
+              <td>{renderValue(order.id)}</td>
+              <td>{renderValue(order.name)}</td>
+              <td>{renderValue(order.surname)}</td>
+              <td>{renderValue(order.email)}</td>
+              <td>{renderValue(order.phone)}</td>
+              <td>{renderValue(order.age)}</td>
+              <td>{renderValue(order.course)}</td>
+              <td>{renderValue(order.course_format)}</td>
+              <td>{renderValue(order.course_type)}</td>
+              <td>{renderValue(order.status)}</td>
+              <td>{renderValue(order.sum)}</td>
+              <td>{renderValue(order.alreadyPaid)}</td>
+              <td>
+                {order.created_at
+                  ? new Date(order.created_at).toLocaleString()
+                  : 'null'}
+              </td>
+              <td>{renderValue(order.group)}</td>
+              <td>{renderValue(order.manager)}</td>
             </tr>
             {expandedOrderId === order.id && (
               <>
