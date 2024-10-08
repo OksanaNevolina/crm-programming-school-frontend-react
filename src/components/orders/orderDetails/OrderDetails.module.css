@@ -1,4 +1,4 @@
-/* OrderDetails.module.css */
+
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -13,59 +13,78 @@
     padding: 10px;
     background-color: #f5f5f5;
     border-radius: 8px;
-    min-width: 300px;
+    min-width: 25%;
 }
-
 .rightColumn {
-    background-color: #e9e9e9;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        align-items: stretch;
-    }
+.commentsList {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
 
-    .leftColumn,
-    .rightColumn {
-        min-width: 100%;
-    }
+.commentItem {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.commentItem strong {
+    color: #333;
+    font-weight: bold;
+}
+
+.commentItem p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
 }
 
 textarea {
-    width: 100%;
-    height: 100px;
     padding: 10px;
-    margin-top: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    resize: vertical;
+    min-height: 100px;
+    font-size: 16px;
 }
 
 .submitButton {
-    margin-top: 10px;
-    padding: 10px 15px;
     background-color: #007bff;
     color: white;
+    padding: 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .submitButton:disabled {
-    background-color: #ccc;
+    background-color: #ddd;
     cursor: not-allowed;
 }
-ul {
-    list-style: none;
-    padding-left: 1px;
+
+.submitButton:hover:not(:disabled) {
+    background-color: #0056b3;
 }
 
 .errorMessage {
     color: red;
-    font-size: 12px;
-    margin-top: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
-
-
-
-

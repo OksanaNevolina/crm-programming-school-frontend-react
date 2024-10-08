@@ -67,17 +67,20 @@ const OrderDetails: FC<IOrderDetailsProps> = ({ orderId }) => {
             </p>
           </div>
           <div className={css.rightColumn}>
-            <ul>
+            <ul className={css.commentsList}>
               {comments?.map((com: IComment, idx: number) => (
-                <li key={idx}>
+                <li key={idx} className={css.commentItem}>
                   <strong>{com.user?.email}</strong> (
-                  {new Date(com.date).toLocaleString()}):{' '}
-                  {typeof com.comment === 'string'
-                    ? com.comment
-                    : JSON.stringify(com.comment)}
+                  {new Date(com.date).toLocaleString()}):
+                  <p>
+                    {typeof com.comment === 'string'
+                      ? com.comment
+                      : JSON.stringify(com.comment)}
+                  </p>
                 </li>
               ))}
             </ul>
+
             <form onSubmit={handleSubmit(onSubmit)}>
               <textarea
                 {...register('comment', { required: 'Comment is required' })}

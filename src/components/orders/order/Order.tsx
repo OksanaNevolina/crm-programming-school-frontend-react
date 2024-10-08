@@ -108,7 +108,7 @@ const Order: FC<IProps> = ({
             {expandedOrderId === order.id && (
               <>
                 <tr>
-                  <td colSpan={13}>
+                  <td colSpan={15}>
                     <OrderDetails orderId={order.id} />
                   </td>
                 </tr>
