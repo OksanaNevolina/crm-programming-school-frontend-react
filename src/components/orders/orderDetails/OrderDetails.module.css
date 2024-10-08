@@ -1,0 +1,71 @@
+/* OrderDetails.module.css */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+.leftColumn,
+.rightColumn {
+    flex: 1;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    min-width: 300px;
+}
+
+.rightColumn {
+    background-color: #e9e9e9;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .leftColumn,
+    .rightColumn {
+        min-width: 100%;
+    }
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.submitButton {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submitButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+ul {
+    list-style: none;
+    padding-left: 1px;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+
+
+

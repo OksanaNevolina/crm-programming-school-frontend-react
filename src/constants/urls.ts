@@ -14,5 +14,7 @@ const urls = {
     getUser: `${user}/get-me`,
   },
   orders,
+  orderById: (orderId: number): string => `${orders}/${orderId}`,
+  addComment: (orderId: number): string => `${orders}/${orderId}/comment`,
 };
 export { baseURL, urls };

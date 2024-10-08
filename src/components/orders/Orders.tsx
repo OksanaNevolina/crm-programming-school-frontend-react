@@ -8,6 +8,7 @@ import { Order } from './order';
 
 const Orders = () => {
   const { orders, itemsFound } = useAppSelector((state) => state.ordersReducer);
+
   const dispatch = useAppDispatch();
   const [query, setQuery] = useSearchParams({
     page: '1',

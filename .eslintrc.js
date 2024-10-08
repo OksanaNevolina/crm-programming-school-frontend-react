@@ -7,11 +7,11 @@ module.exports = {
   plugins: ['@typescript-eslint', 'simple-import-sort', 'prettier'],
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended', // Додає Prettier
-    'prettier', // Вимикає конфліктуючі правила ESLint
+    'plugin:prettier/recommended',
+    'prettier',
   ],
   rules: {
-    'prettier/prettier': 'error', // Включає правило Prettier
+    'prettier/prettier': 'error',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     '@typescript-eslint/no-explicit-any': 'off',

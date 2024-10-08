@@ -1,3 +1,5 @@
+import { IComment } from './InterfaceComment';
+
 export interface IOrder {
   id: number;
   name: string | null;
@@ -14,4 +16,7 @@ export interface IOrder {
   utm: string | null;
   msg: string | null;
   status: string | null;
+  manager: string | null;
+  group: string | null;
+  comments: IComment[];
 }

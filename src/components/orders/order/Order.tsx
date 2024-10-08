@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { IOrder } from '../../../interfaces';
+import { OrderDetails } from '../orderDetails';
 import css from './Order.module.css';
 
 interface IProps {
@@ -16,11 +17,17 @@ const Order: FC<IProps> = ({
   currentOrder,
   currentSortOrder,
 }) => {
+  const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
+
   const getSortIndicator = (column: string) => {
     if (currentOrder === column) {
       return currentSortOrder === 'ASC' ? '↑' : '↓';
     }
     return '';
+  };
+
+  const toggleExpand = (orderId: number) => {
+    setExpandedOrderId((prevId) => (prevId === orderId ? null : orderId));
   };
 
   return (
@@ -64,21 +71,32 @@ const Order: FC<IProps> = ({
       </thead>
       <tbody>
         {orders.map((order) => (
-          <tr key={order.id}>
-            <td>{order.id}</td>
-            <td>{order.name}</td>
-            <td>{order.surname}</td>
-            <td>{order.email}</td>
-            <td>{order.phone}</td>
-            <td>{order.age}</td>
-            <td>{order.course}</td>
-            <td>{order.course_format}</td>
-            <td>{order.course_type}</td>
-            <td>{order.status}</td>
-            <td>{order.sum}</td>
-            <td>{order.alreadyPaid}</td>
-            <td>{order.created_at}</td>
-          </tr>
+          <React.Fragment key={order.id}>
+            <tr onClick={() => toggleExpand(order.id)}>
+              <td>{order.id}</td>
+              <td>{order.name}</td>
+              <td>{order.surname}</td>
+              <td>{order.email}</td>
+              <td>{order.phone}</td>
+              <td>{order.age}</td>
+              <td>{order.course}</td>
+              <td>{order.course_format}</td>
+              <td>{order.course_type}</td>
+              <td>{order.status}</td>
+              <td>{order.sum}</td>
+              <td>{order.alreadyPaid}</td>
+              <td>{new Date(order.created_at).toLocaleString()}</td>
+            </tr>
+            {expandedOrderId === order.id && (
+              <>
+                <tr>
+                  <td colSpan={13}>
+                    <OrderDetails orderId={order.id} />
+                  </td>
+                </tr>
+              </>
+            )}
+          </React.Fragment>
         ))}
       </tbody>
     </table>
