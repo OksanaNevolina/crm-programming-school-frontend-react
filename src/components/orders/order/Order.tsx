@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom'; // Підключаємо хуки
 
 import { IOrder } from '../../../interfaces';
 import { OrderDetails } from '../orderDetails';
@@ -9,6 +10,7 @@ interface IProps {
   onSort: (column: string) => void;
   currentOrder: string;
   currentSortOrder: string;
+  onUpdateOrders: () => void;
 }
 
 const Order: FC<IProps> = ({
@@ -16,8 +18,13 @@ const Order: FC<IProps> = ({
   onSort,
   currentOrder,
   currentSortOrder,
+  onUpdateOrders,
 }) => {
-  const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const { orderId } = useParams<{ orderId?: string }>();
+  const [expandedOrderId, setExpandedOrderId] = useState<number | null>(
+    orderId ? parseInt(orderId) : null,
+  );
 
   const getSortIndicator = (column: string) => {
     if (currentOrder === column) {
@@ -27,7 +34,16 @@ const Order: FC<IProps> = ({
   };
 
   const toggleExpand = (orderId: number) => {
-    setExpandedOrderId((prevId) => (prevId === orderId ? null : orderId));
+    const isExpanded = expandedOrderId === orderId;
+    setExpandedOrderId(isExpanded ? null : orderId);
+
+    onUpdateOrders();
+
+    if (!isExpanded) {
+      navigate(`/orders/${orderId}`);
+    } else {
+      navigate(`/orders`);
+    }
   };
 
   const renderValue = (value: any) => {
@@ -102,17 +118,15 @@ const Order: FC<IProps> = ({
                   ? new Date(order.created_at).toLocaleString()
                   : 'null'}
               </td>
-              <td>{renderValue(order.group)}</td>
+              <td>{renderValue(order.group?.name)}</td>
               <td>{renderValue(order.manager)}</td>
             </tr>
             {expandedOrderId === order.id && (
-              <>
-                <tr>
-                  <td colSpan={15}>
-                    <OrderDetails orderId={order.id} />
-                  </td>
-                </tr>
-              </>
+              <tr>
+                <td colSpan={15}>
+                  <OrderDetails orderId={order.id} />
+                </td>
+              </tr>
             )}
           </React.Fragment>
         ))}

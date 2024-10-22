@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
-import { AuthLayout, MainLayout } from './components';
-import { AuthPage, OrdersPage } from './pages';
+import { AuthLayout, MainLayout, OrderDetails } from './components';
+import { AuthPage, ErrorPage, OrdersPage } from './pages';
 
 const router = createBrowserRouter([
   {
@@ -25,8 +25,18 @@ const router = createBrowserRouter([
       {
         path: 'orders',
         element: <OrdersPage />,
+        children: [
+          {
+            path: ':orderId',
+            element: <OrderDetails />,
+          },
+        ],
       },
     ],
+  },
+  {
+    path: '*',
+    element: <ErrorPage />,
   },
 ]);
 export { router };

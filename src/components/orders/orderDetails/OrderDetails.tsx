@@ -1,14 +1,16 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { IComment } from '../../../interfaces/InterfaceComment';
 import { authActions, getOrderById, ordersActions } from '../../../redux';
-import css from './OrderDetails.module.css'; // Підключаємо модуль стилів
+import { EditOrderModal } from '../editOrderModal';
+import css from './OrderDetails.module.css';
 
 interface IOrderDetailsProps {
-  orderId: number;
+  orderId?: number;
 }
+
 export interface ICommentFormInputs {
   comment: string;
 }
@@ -19,6 +21,16 @@ const OrderDetails: FC<IOrderDetailsProps> = ({ orderId }) => {
     (state) => state.ordersReducer,
   );
   const { me } = useAppSelector((state) => state.authReducer);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsEditModalOpen(false);
+  };
 
   const {
     register,
@@ -31,18 +43,26 @@ const OrderDetails: FC<IOrderDetailsProps> = ({ orderId }) => {
     },
   });
 
+  const params = useParams<{ orderId?: string }>();
+  const orderIdFromParams =
+    orderId || (params.orderId ? parseInt(params.orderId) : undefined);
+
   useEffect(() => {
-    dispatch(getOrderById({ orderId }));
-    dispatch(authActions.getMe());
-  }, [dispatch, orderId]);
+    if (orderIdFromParams) {
+      dispatch(getOrderById({ orderId: orderIdFromParams }));
+      dispatch(authActions.getMe());
+    }
+  }, [dispatch, orderIdFromParams]);
 
   const onSubmit: SubmitHandler<ICommentFormInputs> = (
     data: ICommentFormInputs,
   ) => {
     const { comment } = data;
 
-    if (!order.manager || order.manager === me.email) {
-      dispatch(ordersActions.addComment({ orderId, comment }));
+    if (!order.manager || order.manager === me?.email) {
+      dispatch(
+        ordersActions.addComment({ orderId: orderIdFromParams!, comment }),
+      );
       reset();
     } else {
       alert(
@@ -68,7 +88,7 @@ const OrderDetails: FC<IOrderDetailsProps> = ({ orderId }) => {
           </div>
           <div className={css.rightColumn}>
             <ul className={css.commentsList}>
-              {comments?.map((com: IComment, idx: number) => (
+              {comments?.map((com, idx) => (
                 <li key={idx} className={css.commentItem}>
                   <strong>{com.user?.email}</strong> (
                   {new Date(com.date).toLocaleString()}):
@@ -80,24 +100,31 @@ const OrderDetails: FC<IOrderDetailsProps> = ({ orderId }) => {
                 </li>
               ))}
             </ul>
-
             <form onSubmit={handleSubmit(onSubmit)}>
               <textarea
                 {...register('comment', { required: 'Comment is required' })}
                 placeholder="Enter your comment"
-                disabled={order.manager && order.manager !== me.email}
+                disabled={order.manager && order.manager !== me?.email}
               />
               {errors.comment && (
                 <p className={css.errorMessage}>{errors.comment.message}</p>
               )}
               <button
                 type="submit"
-                disabled={order.manager && order.manager !== me.email}
+                disabled={order.manager && order.manager !== me?.email}
                 className={css.submitButton}
               >
                 Submit
               </button>
             </form>
+          </div>
+          <div>
+            <button onClick={handleEditClick} className="editButton">
+              Edit
+            </button>
+            {isEditModalOpen && (
+              <EditOrderModal orderId={order.id} onClose={handleCloseModal} />
+            )}
           </div>
         </>
       ) : (

@@ -29,6 +29,10 @@ const Orders = () => {
     setQuery({ page: page.toString(), order: column, sortOrder: newSortOrder });
   };
 
+  const handleUpdateOrders = () => {
+    dispatch(ordersActions.getOrders({ page, order, sortOrder })); // Повторно отримуємо замовлення
+  };
+
   return (
     <div>
       <div>
@@ -37,6 +41,7 @@ const Orders = () => {
           onSort={handleSort}
           currentOrder={order}
           currentSortOrder={sortOrder}
+          onUpdateOrders={handleUpdateOrders}
         />
       </div>
       <Pagination

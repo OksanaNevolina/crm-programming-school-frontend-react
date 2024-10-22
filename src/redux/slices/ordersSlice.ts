@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 
 import { IOrder, IPaginationResponse } from '../../interfaces';
 import { IComment } from '../../interfaces/InterfaceComment';
+import { IEditOrderForm } from '../../interfaces/InterfaceEditOrderForm';
 import { OrdersService } from '../../services';
 
 interface IState {
@@ -14,6 +15,7 @@ interface IState {
   order: IOrder;
   comments: IComment[];
   status: string;
+  orderForUpdate: boolean;
 }
 const initialState: IState = {
   orders: [],
@@ -24,6 +26,7 @@ const initialState: IState = {
   order: null,
   comments: [],
   status: 'idle',
+  orderForUpdate: null,
 };
 
 const getOrders = createAsyncThunk<
@@ -65,7 +68,6 @@ const addComment = createAsyncThunk<
     comment: string;
   }
 >('orderSlice/addComment', async ({ orderId, comment }, thunkAPI) => {
-  console.log(orderId, comment);
   try {
     const response = await OrdersService.addComments(orderId, comment);
     thunkAPI.dispatch(getOrderById({ orderId }));
@@ -74,6 +76,14 @@ const addComment = createAsyncThunk<
     const err = e as AxiosError;
     return thunkAPI.rejectWithValue(err.response?.data || err.message);
   }
+});
+
+const updateOrder = createAsyncThunk<
+  void,
+  { orderId: number; data: IEditOrderForm }
+>('orderSlice/updateOrder', async ({ orderId, data }, thunkAPI) => {
+  await OrdersService.updateOrder(orderId, data);
+  await thunkAPI.dispatch(getOrderById({ orderId }));
 });
 
 const ordersSlice = createSlice({
@@ -106,6 +116,9 @@ const ordersSlice = createSlice({
           state.comments = [];
         }
         state.comments.push(action.payload);
+      })
+      .addCase(updateOrder.fulfilled, (state) => {
+        state.orderForUpdate = null;
       }),
 });
 const { reducer: ordersReducer, actions } = ordersSlice;
@@ -114,5 +127,6 @@ const ordersActions = {
   getOrders,
   addComment,
   getOrderById,
+  updateOrder,
 };
 export { ordersActions, ordersReducer };

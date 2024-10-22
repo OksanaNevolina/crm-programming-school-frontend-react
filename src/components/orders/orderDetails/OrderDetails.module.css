@@ -88,3 +88,7 @@ textarea {
     font-size: 14px;
     margin-bottom: 10px;
 }
+.editButton {
+    float: right;
+    background-color:blue;
+}
