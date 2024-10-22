@@ -47,15 +47,30 @@ const EditOrderModal: FC<{ orderId: number; onClose: () => void }> = ({
       alreadyPaid: Number(data.alreadyPaid),
       age: Number(data.age),
       email: data.email.trim(),
+      groupId: data.groupId,
     };
 
+    let newGroupId: number | null = null;
+
     if (newGroupName) {
-      await dispatch(ActionsGroups.createGroup(newGroupName)).unwrap();
+      const newGroupResponse = await dispatch(
+        ActionsGroups.createGroup(newGroupName),
+      ).unwrap();
+      newGroupId = newGroupResponse.id;
       setNewGroupName('');
       dispatch(ActionsGroups.getGroups());
     }
 
-    dispatch(ordersActions.updateOrder({ orderId, data: preparedData }));
+    await dispatch(
+      ordersActions.updateOrder({
+        orderId,
+        data: {
+          ...preparedData,
+          groupId: newGroupId ? newGroupId : preparedData.groupId,
+        },
+      }),
+    );
+
     onClose();
   };
 
